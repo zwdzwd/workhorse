@@ -213,6 +213,7 @@ if (args.dat[1]=='RStudio') {
   )
   opt_parser = OptionParser(option_list=option_list)
   opt = parse_args(opt_parser)
+  
 }
 opt$prgmPath <- prgmPath
 if (!is.null(opt$funcScript) && !file.exists(opt$funcScript))
@@ -254,7 +255,7 @@ if (opt$verbosity>2) {
 source(opt$funcScript)
 opt$topDir <- dirname(opt$srcDir)
 opt$datDir <- file.path(opt$topDir, 'dat')
-if (!dir.exists(opt$datDir)) dir.create(opt$topDir, recursive=TRUE)
+if (!dir.exists(opt$datDir)) dir.create(file.path(opt$datDir, 'manifest'), recursive=TRUE)
 
 # ----- ----- ----- ----- ----- -----|----- ----- ----- ----- ----- ----- #
 #                              Sample Sheet::
@@ -426,7 +427,7 @@ if (opt$cluster) {
   # ----- ----- ----- ----- ----- -----|----- ----- ----- ----- ----- ----- #
 
   ssheets <- NULL
-  if (opt$paralle) {
+  if (opt$parallel) {
     cat(glue::glue("[{opt$prgmName}]: Will use multi-core parallel processing..."),"\n", sep='')
     ssheets <- foreach (prefix=names(chipPrefixes), .inorder=T, .final = function(x) setNames(x, names(chipPrefixes))) %dopar% {
       ss.ret <- singleSampleWorkflow(prefix=chipPrefixes[[prefix]],
