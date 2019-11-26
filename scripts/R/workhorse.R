@@ -120,6 +120,19 @@ if (args.dat[1]=='RStudio') {
   opt$retSSET     <- FALSE
   opt$retPRBS     <- FALSE
   
+} else if (args.dat[length(args.dat)] == "wandingTest") {
+    
+    setwd('~/repo/sesame_docker/test')
+    opt$Rscript <- '/Users/zhouw3/.Renv/shims/R'
+    opt$outDir <- "output"
+    opt$idatsDir <- "."
+    opt$prgmTag <- "testWorkhorse"
+    opt$srcDir <- '/Users/zhouw3/repo/workhorse/scripts/'
+    opt$topDir <- '/Users/zhouw3/repo/workhorse/'
+    opt$runMode <- 'sesameTest'
+    opt$loadMAN <- TRUE
+    prgmPath <- '/Users/zhouw3/repo/workhorse/scripts/R/workhorse.R'
+    
 } else {
   prgmPath <- substring(args.dat[grep("--file=", args.dat)], 8)
   
@@ -215,7 +228,9 @@ if (args.dat[1]=='RStudio') {
   opt = parse_args(opt_parser)
   
 }
+
 opt$prgmPath <- prgmPath
+
 if (!is.null(opt$funcScript) && !file.exists(opt$funcScript))
   opt$funcScript <- file.path(opt$srcDir, 'R', opt$funcScript)
 
@@ -280,6 +295,7 @@ cat(glue::glue("[{opt$prgmTag}]: searchIDATprefixes={chipPrefixes.len}"),"\n",se
 # ----- ----- ----- ----- ----- -----|----- ----- ----- ----- ----- ----- #
 #                                  Main::
 # ----- ----- ----- ----- ----- -----|----- ----- ----- ----- ----- ----- #
+
 
 if (opt$cluster) {
   cat(glue::glue("[{opt$prgmTag}]: Launching Chips in Cluster Mode!"),"\n", sep='')

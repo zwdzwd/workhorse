@@ -73,7 +73,7 @@ singleSampleWorkflow = function(prefix,
   if (opt$retSSET) return(ssets)
   ssets.tib   <- NULL
   ssets.merge <- NULL
-  
+
   prbs <- ssetsToTibs(ssets, verbose=verbose)
   if (verbose>=vt+5) print(prbs)
   if (opt$retPRBS) return(prbs)
@@ -409,6 +409,7 @@ ssetToSigTib = function(sset, sig, verbose=0, vt=4) {
   
   dat <- NULL
   if (sig=='IG') {
+      ## Q: shall we do as.integer
     dat <- sset@IG %>% tibble::as_tibble(rownames='Probe_ID',.name_repair = "unique") %>%
       dplyr::mutate(U=as.integer(U), M=as.integer(M)) %>%
       dplyr::rename(GU=U, GM=M) %>%
@@ -482,7 +483,7 @@ ssetsToTibs = function(ssets, verbose=0, vt=3) {
   base <- 'base'
   swap <- 'swap'
   stopifnot(length(ssets[[base]])==1)
-  stopifnot(length(ssets[[base]])==1)
+  stopifnot(length(ssets[[swap]])==1)
   
   # Calculate Signals::
   sigsII <- ssetToSigTib(ssets[[base]], 'II') %>% dplyr::rename(G=GII, R=RII) %>%
@@ -787,7 +788,7 @@ addManifestGroups = function(platform='EPIC',build='hg19', manCPG=NULL, maxCnt=N
 
 sesameManifest = function(platform='EPIC', build='hg19', verbose=0, vt=4) {
   funcTag <- 'sesameManifest'
-  
+
   if (verbose>=vt) cat(glue::glue("[{funcTag}]:{TAB} Starting..."),"\n", sep='')
   name <- paste(platform,build,'manifest', sep='.')
   # tib <- suppressMessages(suppressWarnings(sesameData::sesameDataGet(name) )) %>% 
