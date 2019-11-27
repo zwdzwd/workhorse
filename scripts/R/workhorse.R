@@ -161,7 +161,7 @@ if (args.dat[1]=='RStudio') {
   opt$runMode <- 'CommandLine'
   opt$prgmTag <- sub('\\.R$', '', basename(substring(args.dat[grep("--file=", args.dat)], 8)))
   opt$srcDir  <- dirname(normalizePath(dirname(substring(args.dat[grep("--file=", args.dat)], 8)) ))
-  # opt$topDir  <- dirname(opt$srcDir)
+  opt$topDir  <- dirname(opt$srcDir)
   
   args.dat <- commandArgs(trailingOnly = TRUE)
   option_list = list(
